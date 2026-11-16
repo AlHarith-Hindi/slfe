@@ -82,6 +82,16 @@ tr.closed td{opacity:.55}
 .card .why{background:var(--soft);border-radius:6px;padding:6px 10px}
 .card .why b{color:var(--accent)}
 .empty{color:var(--muted);font-style:italic;padding:8px 0}
+.filters{display:grid;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.frow{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.flabel{flex:0 0 70px;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+html[lang=ar] .flabel{letter-spacing:0;flex-basis:80px}
+.mkq{display:flex;gap:8px;flex:1;min-width:0;max-width:520px}
+.mkq input{flex:1;min-width:0;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font:inherit;font-size:13.5px}
+.mkq input:focus{outline:2px solid var(--petrol-2);outline-offset:1px}
+.chip .c{margin-inline-start:6px;opacity:.7;font-variant-numeric:tabular-nums}
+.mkcount{margin:0;color:var(--muted);font-size:13px}
+.card .area{font-weight:700;color:var(--fg);background:var(--soft);border-radius:999px;padding:0 8px}
 mark{background:#FFE58A;color:#111;border-radius:2px;padding:0 1px}
 .flash{animation:flash 2.2s ease-out}
 @keyframes flash{0%{box-shadow:0 0 0 3px var(--petrol-2)}100%{box-shadow:0 0 0 0 transparent}}
@@ -138,10 +148,16 @@ footer ul{margin:8px 0 0;padding-inline-start:18px;display:grid;gap:4px}
     </div>
     <div class="tbl"><table><thead><tr><th data-t="thClose"></th><th data-t="thTender"></th><th data-t="thBuyer"></th><th data-t="thDisc"></th><th data-t="thFit"></th><th data-t="thBook"></th><th data-t="thRn"></th></tr></thead><tbody id="et-body"></tbody></table></div>
   </section>
-  <section id="v-hcis" data-tab="hcis" hidden></section>
-  <section id="v-gami" data-tab="gami" hidden></section>
-  <section id="v-defense" data-tab="defense" hidden></section>
-  <section id="v-supply" data-tab="supply" hidden></section>
+  <section id="v-market" data-tab="market" hidden>
+    <div class="sec-h"><h2 data-t="mkH"></h2><p data-t="mkP"></p></div>
+    <div class="filters">
+      <div class="frow"><span class="flabel" data-t="fArea"></span><div class="tools" id="mk-area"></div></div>
+      <div class="frow"><span class="flabel" data-t="fType"></span><div class="tools" id="mk-kind"></div></div>
+      <div class="frow"><span class="flabel" data-t="fWord"></span><div class="mkq"><input id="mk-q" type="search" autocomplete="off"><button id="mk-reset" type="button" class="chip" data-t="reset"></button></div></div>
+    </div>
+    <p class="mkcount" id="mk-count"></p>
+    <ul class="list" id="mk-list"></ul>
+  </section>
   <section id="v-dates" data-tab="dates" hidden>
     <div class="sec-h"><h2 data-t="dtH"></h2><p data-t="dtP"></p></div>
     <div class="tbl"><table><thead><tr><th data-t="thDates"></th><th data-t="thEvent"></th><th data-t="thArea"></th><th data-t="thWhy"></th></tr></thead><tbody id="dt-body"></tbody></table></div>
@@ -156,7 +172,7 @@ footer ul{margin:8px 0 0;padding-inline-start:18px;display:grid;gap:4px}
 (function(){
 var T={
 en:{mark:'SLFE · SOLUTION LEADERS FAYEZ ENGINEERING',title:'SLFE Opportunity Watch',other:'ع',otherTip:'العربية',search:'Search tenders, buyers, HCIS, GAMI, events…',clear:'Clear search',sections:'Sections',
- overview:'Overview',etimad:'Etimad',hcis:'HCIS',gami:'GAMI',defense:'Defense logistics',supply:'Supply chain',dates:'Dates',
+ overview:'Overview',etimad:'Etimad',market:'Market Updates',dates:'Dates',mkH:'Market Updates',mkP:'HCIS, GAMI, defense logistics and supply-chain news, rules, programmes and events in one place. Use the filters to narrow it down.',fArea:'Area',fType:'Type',fWord:'Words',mkFilter:'Filter these updates…',reset:'Clear filters',mkCount:function(n,t){return 'Showing '+n+' of '+t+' updates';},
  soonH:'Closing next on Etimad',soonP:'Open tenders that fit SLFE, nearest deadline first.',latestH:'Latest updates',latestP:'Newest items from HCIS, GAMI, defense logistics and supply chain.',
  etH:'Etimad tenders that fit SLFE',etP:'Open government tenders for engineering design, supervision, PMC, studies, industrial security, fire protection, pipelines, process, instrumentation and utilities. Plain supply, maintenance-only, construction-only, cleaning, catering and IT software are left out.',
  all:'All',Strong:'Strong',Medium:'Medium',allDisc:'All disciplines',disc:'Discipline',showClosed:'Show closed',
@@ -174,7 +190,7 @@ en:{mark:'SLFE · SOLUTION LEADERS FAYEZ ENGINEERING',title:'SLFE Opportunity Wa
  fig:{gami_localization:'Military spending localized, 2025',iktva:'Aramco iktva local content'},
  mon:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],dow:['Sun','Mon','Tue','Wed','Thu','Fri','Sat']},
 ar:{mark:'SLFE · سوليوشن ليدرز فايز للهندسة',title:'مرصد فرص SLFE',other:'EN',otherTip:'English',search:'ابحث في المنافسات والجهات والأمن الصناعي والفعاليات…',clear:'مسح البحث',sections:'الأقسام',
- overview:'نظرة عامة',etimad:'اعتماد',hcis:'الأمن الصناعي',gami:'الصناعات العسكرية',defense:'الإمداد الدفاعي',supply:'سلاسل الإمداد',dates:'المواعيد',
+ overview:'نظرة عامة',etimad:'اعتماد',market:'مستجدات السوق',dates:'المواعيد',mkH:'مستجدات السوق',mkP:'أخبار وتنظيمات وبرامج وفعاليات الأمن الصناعي والصناعات العسكرية والإمداد الدفاعي وسلاسل الإمداد في مكان واحد. استخدم التصفية لتضييق النتائج.',fArea:'المجال',fType:'النوع',fWord:'كلمات',mkFilter:'صفِّ هذه المستجدات…',reset:'مسح التصفية',mkCount:function(n,t){return 'عرض '+n+' من '+t;},
  soonH:'الأقرب إغلاقًا في اعتماد',soonP:'المنافسات المفتوحة المناسبة لـ SLFE، الأقرب موعدًا أولًا.',latestH:'آخر المستجدات',latestP:'أحدث ما ورد عن الأمن الصناعي والصناعات العسكرية والإمداد الدفاعي وسلاسل الإمداد.',
  etH:'منافسات اعتماد المناسبة لـ SLFE',etP:'منافسات حكومية مفتوحة للتصميم الهندسي والإشراف وإدارة المشاريع والدراسات والأمن الصناعي والحماية من الحريق وخطوط الأنابيب والعمليات وأجهزة القياس والمرافق. استُبعدت منافسات التوريد البحت والصيانة فقط والإنشاء فقط والنظافة والإعاشة وبرمجيات تقنية المعلومات.',
  all:'الكل',Strong:'قوية',Medium:'متوسطة',allDisc:'كل التخصصات',disc:'التخصص',showClosed:'إظهار المغلقة',
@@ -192,8 +208,8 @@ ar:{mark:'SLFE · سوليوشن ليدرز فايز للهندسة',title:'مر
  fig:{gami_localization:'توطين الإنفاق العسكري، 2025',iktva:'المحتوى المحلي في «اكتفاء» أرامكو'},
  mon:['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],dow:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت']}};
 var SECS=[{id:'hcis',key:'HCIS'},{id:'gami',key:'GAMI'},{id:'defense',key:'Defense logistics'},{id:'supply',key:'Supply chain'}];
-var TABS=['overview','etimad','hcis','gami','defense','supply','dates'];
-var D=null,L='en',st={tab:'overview',fit:'',disc:'',closed:false,kind:{}},q0='';
+var TABS=['overview','etimad','market','dates'];
+var D=null,L='en',st={tab:'overview',fit:'',disc:'',closed:false,area:'',mkind:'',mq:''},q0='';
 try{var sv=localStorage.getItem('slfeLang');if(sv==='ar'||sv==='en')L=sv;}catch(e){}
 function t(k){return T[L][k];}
 function $(id){return document.getElementById(id);}
@@ -212,16 +228,16 @@ function isOpen(r){var x=dl(r.deadline);return x&&x>Date.now();}
 function hl(node,text,q){node.textContent='';var s=String(text==null?'':text);if(!q){node.textContent=s;return node;}var lo=s.toLowerCase(),i=0,j;while((j=lo.indexOf(q,i))>=0){node.appendChild(document.createTextNode(s.slice(i,j)));node.appendChild(el('mark',null,s.slice(j,j+q.length)));i=j+q.length;}node.appendChild(document.createTextNode(s.slice(i)));return node;}
 function pill(x,c){return el('span','pill '+c,x);}
 function fmtN(n){return Number(n).toLocaleString('en-US');}
-function secOf(r){return SECS.filter(function(s){return s.key===r.section;})[0]||SECS[0];}
+function secOf(r){return {id:'market'};}
 
 function statics(){document.documentElement.lang=L;document.documentElement.dir=L==='ar'?'rtl':'ltr';document.title=t('title');
  document.querySelectorAll('[data-t]').forEach(function(n){n.textContent=t(n.dataset.t);});
  $('q').placeholder=t('search');$('q').setAttribute('aria-label',t('search'));$('qx').setAttribute('aria-label',t('clear'));$('nav').setAttribute('aria-label',t('sections'));
  var lb=$('lang');lb.textContent=t('other');lb.title=t('otherTip');lb.setAttribute('aria-label',t('otherTip'));lb.setAttribute('lang',L==='ar'?'en':'ar');
- $('et-disc').setAttribute('aria-label',t('disc'));}
+ $('et-disc').setAttribute('aria-label',t('disc'));$('mk-q').placeholder=t('mkFilter');$('mk-q').setAttribute('aria-label',t('mkFilter'));}
 function buildTabs(){var w=$('tabs');w.textContent='';TABS.forEach(function(id){var b=el('button');b.type='button';b.setAttribute('role','tab');b.dataset.tab=id;b.appendChild(document.createTextNode(t(id)));var n=el('span','n');n.id='n-'+id;if(id==='overview')n.hidden=true;b.appendChild(n);
  b.onclick=function(){$('q').value='';search('');go(id,true);var y=document.querySelector('header.band').offsetHeight;if(window.scrollY>y)window.scrollTo(0,y);};w.appendChild(b);});}
-function counts(){$('n-etimad').textContent=D.etimad.filter(isOpen).length;SECS.forEach(function(s){$('n-'+s.id).textContent=D.watch.filter(function(r){return r.section===s.key;}).length;});$('n-dates').textContent=upcoming().length;}
+function counts(){$('n-etimad').textContent=D.etimad.filter(isOpen).length;$('n-market').textContent=D.watch.length;$('n-dates').textContent=upcoming().length;}
 function go(id,push){if(TABS.indexOf(id)<0)id='overview';st.tab=id;document.querySelectorAll('nav.tabs button').forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.tab===id));});document.querySelectorAll('section[data-tab]').forEach(function(s){s.hidden=s.dataset.tab!==id;});$('v-search').hidden=true;if(push)setHash(id);}
 
 function overview(){var open=D.etimad.filter(isOpen).sort(function(a,b){return dl(a.deadline)-dl(b.deadline);});var soon=open.filter(function(r){return dl(r.deadline)-Date.now()<=7*864e5;});var strong=open.filter(function(r){return r.fit==='Strong';});
@@ -235,7 +251,7 @@ function overview(){var open=D.etimad.filter(isOpen).sort(function(a,b){return d
 function snip(txt,q){var s=String(txt||''),i=s.toLowerCase().indexOf(q);if(i<0)return '';var a=Math.max(0,i-60),b=Math.min(s.length,i+q.length+80);return (a>0?'…':'')+s.slice(a,b)+(b<s.length?'…':'');}
 function resBtn(title,meta,tab,target,ar,q,extra){var b=el('button');b.type='button';var tt=hl(el('span','t'),title,q);if(ar){tt.setAttribute('lang','ar');tt.dir='rtl';}b.append(tt,hl(el('span','m'),meta,q));
  if(q&&extra&&String(title).toLowerCase().indexOf(q)<0&&String(meta).toLowerCase().indexOf(q)<0){var sn=snip(extra,q);if(sn)b.appendChild(hl(el('span','x'),sn,q));}
- b.onclick=function(){$('q').value='';search('');go(tab,true);var x=$(target);if(x){x.scrollIntoView({block:'center',behavior:'smooth'});x.classList.remove('flash');void x.offsetWidth;x.classList.add('flash');}};return b;}
+ b.onclick=function(){$('q').value='';search('');if(tab==='market'){st.area='';st.mkind='';st.mq='';$('mk-q').value='';market();}go(tab,true);var x=$(target);if(x){x.scrollIntoView({block:'center',behavior:'smooth'});x.classList.remove('flash');void x.offsetWidth;x.classList.add('flash');}};return b;}
 
 function etimad(){var sel=$('et-disc');sel.textContent='';sel.appendChild(new Option(t('allDisc'),''));var ds={};D.etimad.forEach(function(r){ds[r.discipline]=f(r,'discipline');});Object.keys(ds).sort().forEach(function(k){sel.appendChild(new Option(ds[k],k));});sel.value=st.disc;
  $('et-tools').querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.fit===st.fit));});
@@ -247,14 +263,17 @@ function etimad(){var sel=$('et-disc');sel.textContent='';sel.appendChild(new Op
   var ag=el('td','ar',r.agency);ag.setAttribute('lang','ar');ag.style.minWidth='170px';if(/مباشر/.test(r.type||'')){ag.appendChild(el('br'));ag.appendChild(pill(t('dp'),'dp'));}tr.appendChild(ag);
   tr.appendChild(el('td',null,f(r,'discipline')));var fc=el('td');fc.appendChild(pill(t(r.fit),r.fit));tr.appendChild(fc);tr.appendChild(el('td','n',r.booklet?fmtN(r.booklet):'—'));tr.appendChild(el('td','n',r.rn));B.appendChild(tr);});}
 
-function card(r){var li=el('li','card');li.id='w-'+r.id;var m=el('div','meta');m.append(el('span','kind',t('kind')[r.kind]),el('span',null,range(r)));
+function card(r){var li=el('li','card');li.id='w-'+r.id;var m=el('div','meta');m.append(el('span','kind',t('kind')[r.kind]),el('span','area',t('sec')[r.section]),el('span',null,range(r)));
  var w=el('p','why');w.append(el('b',null,t('forSlfe')),el('span',null,f(r,'slfe')));var s=el('p','meta');var a=el('a',null,t('source')+f(r,'source'));a.href=r.url;a.target='_blank';a.rel='noopener noreferrer';s.appendChild(a);
  li.append(m,el('h3',null,f(r,'title')),el('p',null,f(r,'detail')),w,s);return li;}
-function section(s){var v=$('v-'+s.id);v.textContent='';var h=el('div','sec-h');h.append(el('h2',null,t('secTitle')[s.id]),el('p',null,t('secIntro')[s.id]));v.appendChild(h);
- var items=D.watch.filter(function(r){return r.section===s.key;}),kinds=[];items.forEach(function(r){if(kinds.indexOf(r.kind)<0)kinds.push(r.kind);});
- var tools=el('div','tools');[''].concat(kinds).forEach(function(k){var b=el('button','chip',k?t('kind')[k]:t('all'));b.type='button';b.setAttribute('aria-pressed',String((st.kind[s.id]||'')===k));b.onclick=function(){st.kind[s.id]=k;section(s);};tools.appendChild(b);});v.appendChild(tools);
- var ul=el('ul','list');items.filter(function(r){return !st.kind[s.id]||r.kind===st.kind[s.id];}).sort(function(a,b){return String(b.date||'0').localeCompare(String(a.date||'0'));}).forEach(function(r){ul.appendChild(card(r));});
- if(!ul.children.length)ul.appendChild(el('li','empty',t('nothing')));v.appendChild(ul);}
+function mkMatch(r,ignore){if(ignore!=='area'&&st.area&&r.section!==st.area)return false;if(ignore!=='kind'&&st.mkind&&r.kind!==st.mkind)return false;var q=st.mq.trim().toLowerCase();if(q&&!['title','titleAr','detail','detailAr','slfe','slfeAr','source','sourceAr'].some(function(k){return String(r[k]||'').toLowerCase().indexOf(q)>=0;}))return false;return true;}
+function chipRow(box,vals,cur,label,count,set){box.textContent='';vals.forEach(function(v){var b=el('button','chip',v?label(v):t('all'));b.type='button';b.setAttribute('aria-pressed',String(cur===v));var c=el('span','c',String(count(v)));b.appendChild(c);b.onclick=function(){set(v);market();};box.appendChild(b);});}
+function market(){if(!D)return;var W=D.watch;var areas=[];SECS.forEach(function(s){if(W.some(function(r){return r.section===s.key;}))areas.push(s.key);});var kinds=[];['Rule','News','Programme','Event'].forEach(function(k){if(W.some(function(r){return r.kind===k;}))kinds.push(k);});
+ chipRow($('mk-area'),[''].concat(areas),st.area,function(v){return t('sec')[v];},function(v){return W.filter(function(r){return mkMatch(r,'area')&&(!v||r.section===v);}).length;},function(v){st.area=v;});
+ chipRow($('mk-kind'),[''].concat(kinds),st.mkind,function(v){return t('kind')[v];},function(v){return W.filter(function(r){return mkMatch(r,'kind')&&(!v||r.kind===v);}).length;},function(v){st.mkind=v;});
+ var items=W.filter(function(r){return mkMatch(r);}).sort(function(a,b){var ea=a.kind==='Event',eb=b.kind==='Event';if(ea!==eb)return ea?1:-1;return ea?String(a.date).localeCompare(String(b.date)):String(b.date||'0').localeCompare(String(a.date||'0'));});
+ $('mk-count').textContent=t('mkCount')(items.length,W.length);$('mk-reset').hidden=!(st.area||st.mkind||st.mq.trim());
+ var ul=$('mk-list');ul.textContent='';items.forEach(function(r){ul.appendChild(card(r));});if(!items.length)ul.appendChild(el('li','empty',t('nothing')));}
 function upcoming(){var today=new Date(Date.now()+3*3600e3).toISOString().slice(0,10);return D.watch.filter(function(r){var e=String(r.end||r.date||'');return r.kind==='Event'&&e>=today.slice(0,e.length);}).sort(function(a,b){return String(a.date).localeCompare(String(b.date));});}
 function dates(){var B=$('dt-body');B.textContent='';var ev=upcoming();if(!ev.length){var tr0=el('tr'),td0=el('td','empty',t('noDates'));td0.colSpan=4;tr0.appendChild(td0);B.appendChild(tr0);}
  ev.forEach(function(r){var tr=el('tr');tr.append(el('td','d',range(r)));var c=el('td');var a=el('a',null,f(r,'title'));a.href=r.url;a.target='_blank';a.rel='noopener noreferrer';a.style.fontWeight='600';c.appendChild(a);tr.append(c,el('td',null,t('sec')[r.section]),el('td',null,f(r,'slfe')));B.appendChild(tr);});}
@@ -266,14 +285,14 @@ function search(raw){q0=String(raw||'');var q=q0.trim().toLowerCase();$('qx').hi
  var et=D.etimad.filter(function(r){return has(r,['title','agency','discipline','disciplineAr','note','noteAr','rn','type']);}),total=et.length;
  if(et.length){V.appendChild(el('p','res-h',t('resEt')+' ('+et.length+')'));var R=el('div','res');et.forEach(function(r){R.appendChild(resBtn(r.title,(isOpen(r)?dayTxt(dl(r.deadline)):t('closed'))+' · '+r.agency+' · '+f(r,'discipline')+' · '+r.rn,'etimad','et-'+r.rn,true,q,[r.note,r.noteAr].join(' ')));});V.appendChild(R);}
  SECS.forEach(function(s){var it=D.watch.filter(function(r){return r.section===s.key&&has(r,['title','titleAr','detail','detailAr','slfe','slfeAr','source','sourceAr']);});total+=it.length;if(!it.length)return;
-  V.appendChild(el('p','res-h',t('secTitle')[s.id]+' ('+it.length+')'));var R=el('div','res');it.forEach(function(r){R.appendChild(resBtn(f(r,'title'),range(r)+' · '+t('kind')[r.kind]+' · '+f(r,'source'),s.id,'w-'+r.id,false,q,[r.detail,r.detailAr,r.slfe,r.slfeAr,r.title,r.titleAr].join(' ')));});V.appendChild(R);});
+  V.appendChild(el('p','res-h',t('market')+' · '+t('sec')[s.key]+' ('+it.length+')'));var R=el('div','res');it.forEach(function(r){R.appendChild(resBtn(f(r,'title'),range(r)+' · '+t('kind')[r.kind]+' · '+f(r,'source'),'market','w-'+r.id,false,q,[r.detail,r.detailAr,r.slfe,r.slfeAr,r.title,r.titleAr].join(' ')));});V.appendChild(R);});
  if(!total)V.appendChild(el('p','empty',t('resNone')));}
 
 function render(){statics();buildTabs();if(!D)return;var u=Date.parse(D.updated);$('upd').textContent=isNaN(u)?'':t('updated')+' '+dayTxt(u)+' '+rd(u).toISOString().slice(0,4)+(L==='ar'?'، ':', ')+rd(u).toISOString().slice(11,16)+' '+t('riyadh');
- counts();overview();etimad();SECS.forEach(section);dates();if(q0.trim())search(q0);else go(st.tab,false);}
+ counts();overview();etimad();market();dates();if(q0.trim())search(q0);else go(st.tab,false);}
 function fail(msg){statics();$('upd').textContent='';document.querySelectorAll('section[data-tab]').forEach(function(s){s.hidden=true;});$('nav').hidden=true;var m=$('main');var old=m.querySelector('.err');if(old)old.remove();m.insertBefore(el('div','err',msg),m.firstChild);}
 function wire(){$('et-tools').querySelectorAll('.chip').forEach(function(b){b.onclick=function(){st.fit=b.dataset.fit;etimad();};});
- $('et-disc').onchange=function(){st.disc=this.value;etimad();};$('et-closed').onchange=function(){st.closed=this.checked;etimad();};
+ $('et-disc').onchange=function(){st.disc=this.value;etimad();};var mt;$('mk-q').addEventListener('input',function(){var v=this.value;clearTimeout(mt);mt=setTimeout(function(){st.mq=v;market();},120);});$('mk-reset').onclick=function(){st.area='';st.mkind='';st.mq='';$('mk-q').value='';market();};$('et-closed').onchange=function(){st.closed=this.checked;etimad();};
  var tmr;$('q').addEventListener('input',function(){var v=this.value;clearTimeout(tmr);tmr=setTimeout(function(){search(v);},120);});
  $('q').addEventListener('keydown',function(e){if(e.key==='Escape'){this.value='';search('');}});
  $('qx').onclick=function(){$('q').value='';search('');$('q').focus();};
