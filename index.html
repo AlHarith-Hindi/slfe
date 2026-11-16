@@ -92,6 +92,13 @@ html[lang=ar] .flabel{letter-spacing:0;flex-basis:80px}
 .chip .c{margin-inline-start:6px;opacity:.7;font-variant-numeric:tabular-nums}
 .mkcount{margin:0;color:var(--muted);font-size:13px}
 .card .area{font-weight:700;color:var(--fg);background:var(--soft);border-radius:999px;padding:0 8px}
+.opp{display:inline-block;font-size:11.5px;font-weight:800;color:var(--accent);border:1px solid var(--accent);border-radius:6px;padding:0 6px;margin-inline-end:4px;white-space:nowrap}
+.pill.Prioritise{color:var(--ok)}.pill.Monitor{color:var(--muted)}.pill.Hold{color:var(--warn)}.pill.Exclude{color:var(--bad)}
+.hint{margin:-2px 0 0;font-size:12.5px;color:var(--muted);flex-basis:100%;padding-inline-start:82px}
+html[lang=ar] .hint{padding-inline-start:92px}
+@media (max-width:560px){.hint{padding-inline-start:0}}
+.purp{font-size:13px;color:#C9D8DA;max-width:62ch}
+.route{display:block;color:var(--muted);font-size:12.5px;margin-top:3px}
 mark{background:#FFE58A;color:#111;border-radius:2px;padding:0 1px}
 .flash{animation:flash 2.2s ease-out}
 @keyframes flash{0%{box-shadow:0 0 0 3px var(--petrol-2)}100%{box-shadow:0 0 0 0 transparent}}
@@ -115,6 +122,7 @@ footer ul{margin:8px 0 0;padding-inline-start:18px;display:grid;gap:4px}
     <div class="brand">
       <span class="mark" data-t="mark"></span>
       <h1 data-t="title"></h1>
+      <span class="purp" data-t="purpose"></span>
       <span class="upd" id="upd"></span>
     </div>
     <div class="right">
@@ -146,13 +154,14 @@ footer ul{margin:8px 0 0;padding-inline-start:18px;display:grid;gap:4px}
       <select id="et-disc"></select>
       <label><input type="checkbox" id="et-closed"> <span data-t="showClosed"></span></label>
     </div>
-    <div class="tbl"><table><thead><tr><th data-t="thClose"></th><th data-t="thTender"></th><th data-t="thBuyer"></th><th data-t="thDisc"></th><th data-t="thFit"></th><th data-t="thBook"></th><th data-t="thRn"></th></tr></thead><tbody id="et-body"></tbody></table></div>
+    <div class="tbl"><table><thead><tr><th data-t="thClose"></th><th data-t="thTender"></th><th data-t="thBuyer"></th><th data-t="thDisc"></th><th data-t="thOpp"></th><th data-t="thFit"></th><th data-t="thBook"></th><th data-t="thRn"></th></tr></thead><tbody id="et-body"></tbody></table></div>
   </section>
   <section id="v-market" data-tab="market" hidden>
     <div class="sec-h"><h2 data-t="mkH"></h2><p data-t="mkP"></p></div>
     <div class="filters">
       <div class="frow"><span class="flabel" data-t="fArea"></span><div class="tools" id="mk-area"></div></div>
-      <div class="frow"><span class="flabel" data-t="fType"></span><div class="tools" id="mk-kind"></div></div>
+      <div class="frow"><span class="flabel" data-t="fType"></span><div class="tools" id="mk-kind"></div><p class="hint" id="mk-hint"></p></div>
+      <div class="frow"><span class="flabel" data-t="fOpp"></span><div class="tools" id="mk-opp"></div></div>
       <div class="frow"><span class="flabel" data-t="fWord"></span><div class="mkq"><input id="mk-q" type="search" autocomplete="off"><button id="mk-reset" type="button" class="chip" data-t="reset"></button></div></div>
     </div>
     <p class="mkcount" id="mk-count"></p>
@@ -172,44 +181,47 @@ footer ul{margin:8px 0 0;padding-inline-start:18px;display:grid;gap:4px}
 (function(){
 var T={
 en:{mark:'SLFE · SOLUTION LEADERS FAYEZ ENGINEERING',title:'SLFE Opportunity Watch',other:'ع',otherTip:'العربية',search:'Search tenders, buyers, HCIS, GAMI, events…',clear:'Clear search',sections:'Sections',
- overview:'Overview',etimad:'Etimad',market:'Market Updates',dates:'Dates',mkH:'Market Updates',mkP:'HCIS, GAMI, defense logistics and supply-chain news, rules, programmes and events in one place. Use the filters to narrow it down.',fArea:'Area',fType:'Type',fWord:'Words',mkFilter:'Filter these updates…',reset:'Clear filters',mkCount:function(n,t){return 'Showing '+n+' of '+t+' updates';},
+ overview:'Overview',etimad:'Etimad',market:'Market Updates',dates:'Dates',mkH:'Market Updates',mkP:'Everything the defence entry plan needs to watch: requirements from GAMI and HCIS, defence buyers, energy resilience, partners, competitors and sanctions. Use the filters to narrow it down.',fArea:'Area',fType:'Type',fOpp:'Opportunity',purpose:'Defence & military-logistics infrastructure engineering: market entry watch, 2027–2029',thOpp:'Opportunity',fWord:'Words',mkFilter:'Filter these updates…',reset:'Clear filters',mkCount:function(n,t){return 'Showing '+n+' of '+t+' updates';},
  soonH:'Closing next on Etimad',soonP:'Open tenders that fit SLFE, nearest deadline first.',latestH:'Latest updates',latestP:'Newest items from HCIS, GAMI, defense logistics and supply chain.',
- etH:'Etimad tenders that fit SLFE',etP:'Open government tenders for engineering design, supervision, PMC, studies, industrial security, fire protection, pipelines, process, instrumentation and utilities. Plain supply, maintenance-only, construction-only, cleaning, catering and IT software are left out.',
+ etH:'Defence & energy tenders on Etimad',etP:'Open tenders from defence buyers (Ministry of Defense forces, National Guard, GAMI, SAMI) and energy operators that need engineering: fuel and pipeline systems, base utilities, fire protection and security studies, depots and workshops. Each one is tagged with the strategy opportunity (O1–O6) it serves. Civil work with no defence link, plain supply, maintenance-only work and munitions facilities are left out.',
  all:'All',Strong:'Strong',Medium:'Medium',allDisc:'All disciplines',disc:'Discipline',showClosed:'Show closed',
  thClose:'Bids close',thTender:'Tender',thBuyer:'Buyer',thDisc:'Discipline',thFit:'Fit',thBook:'Booklet (SAR)',thRn:'Etimad RN',
  dtH:'Dates to plan around',dtP:'Forums and shows where SLFE can meet buyers, OEMs and new local manufacturers. Confirmed dates only.',thDates:'Dates',thEvent:'Event',thArea:'Area',thWhy:'Why go',
- howH:'How this dashboard is kept up to date',how1:"Etimad's public tender list is scanned every day. A tender is kept only if its scope is engineering work SLFE delivers.",how2:'"Strong" is core SLFE engineering. "Medium" is partly engineering, or worth a look before deciding.',how3:'"Direct purchase" tenders are open only to invited suppliers.',how4:'HCIS, GAMI, defense logistics and supply chain items come from official sites and named news sources. Every card links to its source.',how5:'The data is encrypted. Only people with the full private link can read it, so share the link only with people who should see it.',
+ howH:'How this dashboard is kept up to date',how1:"Etimad's public tender list is scanned every day. A tender is kept only if the buyer is a defence or energy body and the scope is engineering SLFE delivers.",how2:'"Strong" is core SLFE engineering. "Medium" is partly engineering, or worth a look before deciding.',how3:'"Direct purchase" tenders are open only to invited suppliers.',how4:'HCIS, GAMI, defense logistics and supply chain items come from official sites and named news sources. Every card links to its source.',how5:'The data is encrypted. Only people with the full private link can read it, so share the link only with people who should see it.',
  updated:'Updated',riyadh:'Riyadh time',takeN:function(n,s,d){return [[n,1],[n===1?' Etimad tender fits SLFE now (':' Etimad tenders fit SLFE now (',0],[s,1],[' Strong). The next one closes ',0],[d,1],['.',0]];},takeNone:'No open Etimad tender fits SLFE right now. The HCIS, GAMI, defense and supply-chain watch is still current.',
  tOpen:'Open Etimad fits',tOpenS:function(s,m){return s+' Strong · '+m+' Medium';},tSoon:'Closing within 7 days',tSoonS:function(d){return d?'Next: '+d:'Nothing due this week';},
  noOpen:'No open tenders.',noMatch:'No tender matches these filters.',nothing:'Nothing here yet.',noDates:'No upcoming dates.',closed:'Closed',daysLeft:function(n){return n+(n===1?' day left':' days left');},dp:'Direct purchase',
  forSlfe:'For SLFE: ',source:'Source: ',standing:'Standing',resH:'Search results',resP:function(q){return 'Matches for "'+q+'" across every section. Pick one to open it in its tab.';},resEt:'Etimad tenders',resNone:'Nothing matches. Try a buyer name, an RN, or words like fire, pipeline, GAMI, iktva.',
  needLink:'This page opens only from its full private link. Ask the person who shared it with you for the link.',badKey:'This link does not unlock the data. Ask for the current private link.',loadErr:function(m){return 'The data could not be loaded ('+m+'). Refresh the page to try again.';},loading:'Loading…',
- kind:{Rule:'Rule',News:'News',Programme:'Programme',Event:'Event'},sec:{'HCIS':'HCIS','GAMI':'GAMI','Defense logistics':'Defense logistics','Supply chain':'Supply chain'},
+ kind:{'Requirement':'Requirement','News':'News','Way in':'Way in','Background':'Background','Event':'Event','Risk':'Risk'},kindHint:{'':'Pick a type to see what it means.','Requirement':'Something SLFE must meet: a licence condition, certificate, quota or sanctions check.','News':'Something that happened in the market.','Way in':'A registration, platform or programme that opens a door to buyers.','Background':'Context for decisions: partner tiers, who the competitors are.','Event':'A forum or show with confirmed dates.','Risk':'Something that could slow or hurt the plan.'},sec:{'HCIS':'HCIS','GAMI':'GAMI','Defense logistics':'Defence buyers','Energy resilience':'Energy resilience','Partners':'Partners','Competitors':'Competitors','Compliance & sanctions':'Compliance & sanctions','Supply chain':'Logistics & supply chain'},status:{Prioritise:'Prioritise',Monitor:'Monitor',Hold:'On hold',Exclude:'Excluded'},
  secTitle:{hcis:'HCIS · Industrial security',gami:'GAMI · Military industries',defense:'Defense logistics',supply:'Supply chain · Engineering view'},
  secIntro:{hcis:'High Commission for Industrial Security: directives, rules and oversight that set the design basis for security and fire protection.',gami:'General Authority for Military Industries: localization targets, licensing and the marketplace for local partners.',defense:'Sustainment, depots, test and production facilities, and the supplier programmes that feed them.',supply:'Local content programmes, new local plants and logistics corridors that need design, PMC and supervision.'},
  fig:{gami_localization:'Military spending localized, 2025',iktva:'Aramco iktva local content'},
  mon:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],dow:['Sun','Mon','Tue','Wed','Thu','Fri','Sat']},
 ar:{mark:'SLFE · سوليوشن ليدرز فايز للهندسة',title:'مرصد فرص SLFE',other:'EN',otherTip:'English',search:'ابحث في المنافسات والجهات والأمن الصناعي والفعاليات…',clear:'مسح البحث',sections:'الأقسام',
- overview:'نظرة عامة',etimad:'اعتماد',market:'مستجدات السوق',dates:'المواعيد',mkH:'مستجدات السوق',mkP:'أخبار وتنظيمات وبرامج وفعاليات الأمن الصناعي والصناعات العسكرية والإمداد الدفاعي وسلاسل الإمداد في مكان واحد. استخدم التصفية لتضييق النتائج.',fArea:'المجال',fType:'النوع',fWord:'كلمات',mkFilter:'صفِّ هذه المستجدات…',reset:'مسح التصفية',mkCount:function(n,t){return 'عرض '+n+' من '+t;},
+ overview:'نظرة عامة',etimad:'اعتماد',market:'مستجدات السوق',dates:'المواعيد',mkH:'مستجدات السوق',mkP:'كل ما تحتاج خطة دخول قطاع الدفاع إلى متابعته: اشتراطات الهيئة العامة للصناعات العسكرية والهيئة العليا للأمن الصناعي، وجهات الشراء الدفاعية، وحماية منشآت الطاقة، والشركاء، والمنافسون، والعقوبات. استخدم التصفية لتضييق النتائج.',fArea:'المجال',fType:'النوع',fOpp:'الفرصة',purpose:'هندسة البنية التحتية الدفاعية واللوجستية العسكرية: مرصد دخول السوق 2027–2029',thOpp:'الفرصة',fWord:'كلمات',mkFilter:'صفِّ هذه المستجدات…',reset:'مسح التصفية',mkCount:function(n,t){return 'عرض '+n+' من '+t;},
  soonH:'الأقرب إغلاقًا في اعتماد',soonP:'المنافسات المفتوحة المناسبة لـ SLFE، الأقرب موعدًا أولًا.',latestH:'آخر المستجدات',latestP:'أحدث ما ورد عن الأمن الصناعي والصناعات العسكرية والإمداد الدفاعي وسلاسل الإمداد.',
- etH:'منافسات اعتماد المناسبة لـ SLFE',etP:'منافسات حكومية مفتوحة للتصميم الهندسي والإشراف وإدارة المشاريع والدراسات والأمن الصناعي والحماية من الحريق وخطوط الأنابيب والعمليات وأجهزة القياس والمرافق. استُبعدت منافسات التوريد البحت والصيانة فقط والإنشاء فقط والنظافة والإعاشة وبرمجيات تقنية المعلومات.',
+ etH:'منافسات الدفاع والطاقة في اعتماد',etP:'منافسات مفتوحة من جهات دفاعية (أفرع وزارة الدفاع، الحرس الوطني، الهيئة العامة للصناعات العسكرية، SAMI) وجهات الطاقة تحتاج أعمالًا هندسية: أنظمة الوقود والأنابيب، ومرافق القواعد، ودراسات الحماية من الحريق والأمن، والمستودعات والورش. كل منافسة مرتبطة بفرصة الاستراتيجية (O1–O6) التي تخدمها. استُبعدت الأعمال المدنية غير المرتبطة بالدفاع والتوريد البحت والصيانة فقط ومنشآت الذخائر.',
  all:'الكل',Strong:'قوية',Medium:'متوسطة',allDisc:'كل التخصصات',disc:'التخصص',showClosed:'إظهار المغلقة',
  thClose:'إغلاق العروض',thTender:'المنافسة',thBuyer:'الجهة',thDisc:'التخصص',thFit:'الملاءمة',thBook:'الكراسة (ريال)',thRn:'الرقم المرجعي',
  dtH:'مواعيد للتخطيط',dtP:'منتديات ومعارض يمكن لـ SLFE فيها لقاء الجهات والمصنّعين والمصانع المحلية الجديدة. مواعيد مؤكدة فقط.',thDates:'التاريخ',thEvent:'الفعالية',thArea:'المجال',thWhy:'لماذا نحضر',
- howH:'كيف تُحدَّث هذه اللوحة',how1:'تُفحص قائمة منافسات اعتماد العامة يوميًا، ولا تُدرج المنافسة إلا إذا كان نطاقها عملًا هندسيًا تقدّمه SLFE.',how2:'«قوية» تعني من صميم هندسة SLFE، و«متوسطة» تعني جزءًا هندسيًا أو تستحق النظر قبل القرار.',how3:'منافسات «الشراء المباشر» متاحة للموردين المدعوين فقط.',how4:'أخبار الأمن الصناعي والصناعات العسكرية والإمداد الدفاعي وسلاسل الإمداد من مواقع رسمية ومصادر إخبارية مسمّاة، وكل بطاقة مرتبطة بمصدرها.',how5:'البيانات مشفّرة، ولا يقرؤها إلا من لديه الرابط الخاص كاملًا، فشارك الرابط فقط مع من يجب أن يطّلع.',
+ howH:'كيف تُحدَّث هذه اللوحة',how1:'تُفحص قائمة منافسات اعتماد العامة يوميًا، ولا تُدرج المنافسة إلا إذا كانت الجهة دفاعية أو من قطاع الطاقة والنطاق عملًا هندسيًا تقدّمه SLFE.',how2:'«قوية» تعني من صميم هندسة SLFE، و«متوسطة» تعني جزءًا هندسيًا أو تستحق النظر قبل القرار.',how3:'منافسات «الشراء المباشر» متاحة للموردين المدعوين فقط.',how4:'أخبار الأمن الصناعي والصناعات العسكرية والإمداد الدفاعي وسلاسل الإمداد من مواقع رسمية ومصادر إخبارية مسمّاة، وكل بطاقة مرتبطة بمصدرها.',how5:'البيانات مشفّرة، ولا يقرؤها إلا من لديه الرابط الخاص كاملًا، فشارك الرابط فقط مع من يجب أن يطّلع.',
  updated:'آخر تحديث',riyadh:'بتوقيت الرياض',takeN:function(n,s,d){return [[n,1],[n===1?' منافسة في اعتماد تناسب SLFE الآن (':' منافسات في اعتماد تناسب SLFE الآن (',0],[s,1],[' قوية). أقربها يُغلق ',0],[d,1],['.',0]];},takeNone:'لا توجد حاليًا منافسة مفتوحة في اعتماد تناسب SLFE. متابعة الأمن الصناعي والصناعات العسكرية والإمداد ما زالت محدّثة.',
  tOpen:'منافسات مناسبة مفتوحة',tOpenS:function(s,m){return s+' قوية · '+m+' متوسطة';},tSoon:'تُغلق خلال 7 أيام',tSoonS:function(d){return d?'الأقرب: '+d:'لا شيء هذا الأسبوع';},
  noOpen:'لا توجد منافسات مفتوحة.',noMatch:'لا توجد منافسة تطابق هذه التصفية.',nothing:'لا شيء هنا بعد.',noDates:'لا توجد مواعيد قادمة.',closed:'مغلقة',daysLeft:function(n){return n===1?'يوم واحد متبقٍ':(n===2?'يومان متبقيان':n+' أيام متبقية');},dp:'شراء مباشر',
  forSlfe:'لـ SLFE: ',source:'المصدر: ',standing:'دائم',resH:'نتائج البحث',resP:function(q){return 'نتائج «'+q+'» في كل الأقسام. اختر نتيجة لفتحها في قسمها.';},resEt:'منافسات اعتماد',resNone:'لا توجد نتائج. جرّب اسم جهة أو رقمًا مرجعيًا أو كلمات مثل حريق، أنابيب، اكتفاء.',
  needLink:'هذه الصفحة تُفتح فقط من رابطها الخاص كاملًا. اطلب الرابط ممن شاركها معك.',badKey:'هذا الرابط لا يفتح البيانات. اطلب الرابط الخاص الحالي.',loadErr:function(m){return 'تعذّر تحميل البيانات ('+m+'). حدّث الصفحة وحاول مرة أخرى.';},loading:'جارٍ التحميل…',
- kind:{Rule:'تنظيم',News:'خبر',Programme:'برنامج',Event:'فعالية'},sec:{'HCIS':'الأمن الصناعي','GAMI':'الصناعات العسكرية','Defense logistics':'الإمداد الدفاعي','Supply chain':'سلاسل الإمداد'},
+ kind:{'Requirement':'اشتراطات','News':'أخبار','Way in':'طريق الدخول','Background':'خلفية','Event':'فعالية','Risk':'مخاطر'},kindHint:{'':'اختر نوعًا لترى معناه.','Requirement':'شرط يجب أن تستوفيه SLFE: شرط ترخيص أو شهادة أو نسبة توطين أو فحص عقوبات.','News':'حدث وقع في السوق.','Way in':'تسجيل أو منصة أو برنامج يفتح الباب إلى جهات الشراء.','Background':'معلومات تساعد على القرار: مستويات الشركاء ومن هم المنافسون.','Event':'منتدى أو معرض بمواعيد مؤكدة.','Risk':'أمر قد يبطئ الخطة أو يضرّ بها.'},sec:{'HCIS':'الأمن الصناعي','GAMI':'الصناعات العسكرية','Defense logistics':'جهات الشراء الدفاعية','Energy resilience':'حماية منشآت الطاقة','Partners':'الشركاء','Competitors':'المنافسون','Compliance & sanctions':'الالتزام والعقوبات','Supply chain':'اللوجستيات وسلاسل الإمداد'},status:{Prioritise:'أولوية',Monitor:'مراقبة',Hold:'معلّق',Exclude:'مستبعد'},
  secTitle:{hcis:'الهيئة العليا للأمن الصناعي',gami:'الهيئة العامة للصناعات العسكرية',defense:'الإمداد الدفاعي',supply:'سلاسل الإمداد · منظور هندسي'},
  secIntro:{hcis:'التعليمات والأنظمة والإشراف التي تحدد أساس تصميم الأمن والحماية من الحريق.',gami:'مستهدفات التوطين والتراخيص ومنصة الشركاء المحليين.',defense:'الإسناد والمستودعات ومنشآت الاختبار والإنتاج، وبرامج الموردين التي تغذيها.',supply:'برامج المحتوى المحلي والمصانع المحلية الجديدة والممرات اللوجستية التي تحتاج تصميمًا وإدارة مشاريع وإشرافًا.'},
  fig:{gami_localization:'توطين الإنفاق العسكري، 2025',iktva:'المحتوى المحلي في «اكتفاء» أرامكو'},
  mon:['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],dow:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت']}};
-var SECS=[{id:'hcis',key:'HCIS'},{id:'gami',key:'GAMI'},{id:'defense',key:'Defense logistics'},{id:'supply',key:'Supply chain'}];
+var SECS=[{id:'hcis',key:'HCIS'},{id:'gami',key:'GAMI'},{id:'defense',key:'Defense logistics'},{id:'energy',key:'Energy resilience'},{id:'partners',key:'Partners'},{id:'competitors',key:'Competitors'},{id:'compliance',key:'Compliance & sanctions'},{id:'supply',key:'Supply chain'}];
+var KINDS=['Requirement','News','Way in','Background','Event','Risk'];
+function oppName(id){var o=(D&&D.opps||[]).filter(function(x){return x.id===id;})[0];return o?id+' · '+f(o,'name'):id;}
+function oppTags(ids){var w=el('span');(ids||[]).forEach(function(id){var s=el('span','opp',id);s.title=oppName(id);w.appendChild(s);});return w;}
 var TABS=['overview','etimad','market','dates'];
-var D=null,L='en',st={tab:'overview',fit:'',disc:'',closed:false,area:'',mkind:'',mq:''},q0='';
+var D=null,L='en',st={tab:'overview',fit:'',disc:'',closed:false,area:'',mkind:'',mopp:'',mq:''},q0='';
 try{var sv=localStorage.getItem('slfeLang');if(sv==='ar'||sv==='en')L=sv;}catch(e){}
 function t(k){return T[L][k];}
 function $(id){return document.getElementById(id);}
@@ -251,28 +263,30 @@ function overview(){var open=D.etimad.filter(isOpen).sort(function(a,b){return d
 function snip(txt,q){var s=String(txt||''),i=s.toLowerCase().indexOf(q);if(i<0)return '';var a=Math.max(0,i-60),b=Math.min(s.length,i+q.length+80);return (a>0?'…':'')+s.slice(a,b)+(b<s.length?'…':'');}
 function resBtn(title,meta,tab,target,ar,q,extra){var b=el('button');b.type='button';var tt=hl(el('span','t'),title,q);if(ar){tt.setAttribute('lang','ar');tt.dir='rtl';}b.append(tt,hl(el('span','m'),meta,q));
  if(q&&extra&&String(title).toLowerCase().indexOf(q)<0&&String(meta).toLowerCase().indexOf(q)<0){var sn=snip(extra,q);if(sn)b.appendChild(hl(el('span','x'),sn,q));}
- b.onclick=function(){$('q').value='';search('');if(tab==='market'){st.area='';st.mkind='';st.mq='';$('mk-q').value='';market();}go(tab,true);var x=$(target);if(x){x.scrollIntoView({block:'center',behavior:'smooth'});x.classList.remove('flash');void x.offsetWidth;x.classList.add('flash');}};return b;}
+ b.onclick=function(){$('q').value='';search('');if(tab==='market'){st.area='';st.mkind='';st.mopp='';st.mq='';$('mk-q').value='';market();}go(tab,true);var x=$(target);if(x){x.scrollIntoView({block:'center',behavior:'smooth'});x.classList.remove('flash');void x.offsetWidth;x.classList.add('flash');}};return b;}
 
 function etimad(){var sel=$('et-disc');sel.textContent='';sel.appendChild(new Option(t('allDisc'),''));var ds={};D.etimad.forEach(function(r){ds[r.discipline]=f(r,'discipline');});Object.keys(ds).sort().forEach(function(k){sel.appendChild(new Option(ds[k],k));});sel.value=st.disc;
  $('et-tools').querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.fit===st.fit));});
  var rows=D.etimad.filter(function(r){return (st.closed||isOpen(r))&&(!st.fit||r.fit===st.fit)&&(!st.disc||r.discipline===st.disc);}).sort(function(a,b){var oa=isOpen(a),ob=isOpen(b);if(oa!==ob)return oa?-1:1;return dl(a.deadline)-dl(b.deadline);});
- var B=$('et-body');B.textContent='';if(!rows.length){var tr0=el('tr'),td0=el('td','empty',t('noMatch'));td0.colSpan=7;tr0.appendChild(td0);B.appendChild(tr0);return;}
+ var B=$('et-body');B.textContent='';if(!rows.length){var tr0=el('tr'),td0=el('td','empty',t('noMatch'));td0.colSpan=8;tr0.appendChild(td0);B.appendChild(tr0);return;}
  rows.forEach(function(r){var tr=el('tr');tr.id='et-'+r.rn;var x=dl(r.deadline),open=isOpen(r),days=Math.max(1,Math.ceil((x-Date.now())/864e5));if(!open)tr.className='closed';
   var td=el('td','d',dayTxt(x)+' '+String(r.deadline).slice(11,16));td.appendChild(el('br'));if(!open)td.appendChild(pill(t('closed'),'closedp'));else if(days<=7)td.appendChild(pill(t('daysLeft')(days),'soon'));tr.appendChild(td);
   var tt=el('td','ar',r.title);tt.setAttribute('lang','ar');var nt=f(r,'note');if(nt){var sm=el('small',null,nt);sm.dir=L==='ar'?'rtl':'ltr';sm.style.textAlign=L==='ar'?'right':'left';sm.setAttribute('lang',L);tt.appendChild(sm);}tr.appendChild(tt);
   var ag=el('td','ar',r.agency);ag.setAttribute('lang','ar');ag.style.minWidth='170px';if(/مباشر/.test(r.type||'')){ag.appendChild(el('br'));ag.appendChild(pill(t('dp'),'dp'));}tr.appendChild(ag);
-  tr.appendChild(el('td',null,f(r,'discipline')));var fc=el('td');fc.appendChild(pill(t(r.fit),r.fit));tr.appendChild(fc);tr.appendChild(el('td','n',r.booklet?fmtN(r.booklet):'—'));tr.appendChild(el('td','n',r.rn));B.appendChild(tr);});}
+  tr.appendChild(el('td',null,f(r,'discipline')));var oc=el('td');oc.appendChild(oppTags(r.opps));if(f(r,'route'))oc.appendChild(el('span','route',f(r,'route')));tr.appendChild(oc);var fc=el('td');fc.appendChild(pill(t(r.fit),r.fit));tr.appendChild(fc);tr.appendChild(el('td','n',r.booklet?fmtN(r.booklet):'—'));tr.appendChild(el('td','n',r.rn));B.appendChild(tr);});}
 
-function card(r){var li=el('li','card');li.id='w-'+r.id;var m=el('div','meta');m.append(el('span','kind',t('kind')[r.kind]),el('span','area',t('sec')[r.section]),el('span',null,range(r)));
- var w=el('p','why');w.append(el('b',null,t('forSlfe')),el('span',null,f(r,'slfe')));var s=el('p','meta');var a=el('a',null,t('source')+f(r,'source'));a.href=r.url;a.target='_blank';a.rel='noopener noreferrer';s.appendChild(a);
+function card(r){var li=el('li','card');li.id='w-'+r.id;var m=el('div','meta');m.append(el('span','kind',t('kind')[r.kind]||r.kind),el('span','area',t('sec')[r.section]||r.section),el('span',null,range(r)));if(r.status)m.appendChild(pill(t('status')[r.status]||r.status,r.status));if(r.opps&&r.opps.length)m.appendChild(oppTags(r.opps));
+ var w=el('p','why');w.append(el('b',null,t('forSlfe')),el('span',null,f(r,'slfe')));var s=el('p','meta');if(r.url){var a=el('a',null,t('source')+f(r,'source'));a.href=r.url;a.target='_blank';a.rel='noopener noreferrer';s.appendChild(a);}else s.textContent=t('source')+f(r,'source');
  li.append(m,el('h3',null,f(r,'title')),el('p',null,f(r,'detail')),w,s);return li;}
-function mkMatch(r,ignore){if(ignore!=='area'&&st.area&&r.section!==st.area)return false;if(ignore!=='kind'&&st.mkind&&r.kind!==st.mkind)return false;var q=st.mq.trim().toLowerCase();if(q&&!['title','titleAr','detail','detailAr','slfe','slfeAr','source','sourceAr'].some(function(k){return String(r[k]||'').toLowerCase().indexOf(q)>=0;}))return false;return true;}
-function chipRow(box,vals,cur,label,count,set){box.textContent='';vals.forEach(function(v){var b=el('button','chip',v?label(v):t('all'));b.type='button';b.setAttribute('aria-pressed',String(cur===v));var c=el('span','c',String(count(v)));b.appendChild(c);b.onclick=function(){set(v);market();};box.appendChild(b);});}
-function market(){if(!D)return;var W=D.watch;var areas=[];SECS.forEach(function(s){if(W.some(function(r){return r.section===s.key;}))areas.push(s.key);});var kinds=[];['Rule','News','Programme','Event'].forEach(function(k){if(W.some(function(r){return r.kind===k;}))kinds.push(k);});
+function mkMatch(r,ignore){if(ignore!=='area'&&st.area&&r.section!==st.area)return false;if(ignore!=='kind'&&st.mkind&&r.kind!==st.mkind)return false;if(ignore!=='opp'&&st.mopp&&(r.opps||[]).indexOf(st.mopp)<0)return false;var q=st.mq.trim().toLowerCase();if(q&&!['title','titleAr','detail','detailAr','slfe','slfeAr','source','sourceAr'].some(function(k){return String(r[k]||'').toLowerCase().indexOf(q)>=0;}))return false;return true;}
+function chipRow(box,vals,cur,label,count,set){box.textContent='';vals.forEach(function(v){var b=el('button','chip');b.appendChild(el('bdi',null,v?label(v):t('all')));b.type='button';b.setAttribute('aria-pressed',String(cur===v));var c=el('span','c',String(count(v)));b.appendChild(c);b.onclick=function(){set(v);market();};box.appendChild(b);});}
+function market(){if(!D)return;var W=D.watch;var areas=[];SECS.forEach(function(s){if(W.some(function(r){return r.section===s.key;}))areas.push(s.key);});var kinds=KINDS.filter(function(k){return W.some(function(r){return r.kind===k;});});var opps=(D.opps||[]).map(function(o){return o.id;}).filter(function(id){return W.some(function(r){return (r.opps||[]).indexOf(id)>=0;});});
  chipRow($('mk-area'),[''].concat(areas),st.area,function(v){return t('sec')[v];},function(v){return W.filter(function(r){return mkMatch(r,'area')&&(!v||r.section===v);}).length;},function(v){st.area=v;});
  chipRow($('mk-kind'),[''].concat(kinds),st.mkind,function(v){return t('kind')[v];},function(v){return W.filter(function(r){return mkMatch(r,'kind')&&(!v||r.kind===v);}).length;},function(v){st.mkind=v;});
+ chipRow($('mk-opp'),[''].concat(opps),st.mopp,function(v){return oppName(v);},function(v){return W.filter(function(r){return mkMatch(r,'opp')&&(!v||(r.opps||[]).indexOf(v)>=0);}).length;},function(v){st.mopp=v;});
+ $('mk-hint').textContent=t('kindHint')[st.mkind]||'';
  var items=W.filter(function(r){return mkMatch(r);}).sort(function(a,b){var ea=a.kind==='Event',eb=b.kind==='Event';if(ea!==eb)return ea?1:-1;return ea?String(a.date).localeCompare(String(b.date)):String(b.date||'0').localeCompare(String(a.date||'0'));});
- $('mk-count').textContent=t('mkCount')(items.length,W.length);$('mk-reset').hidden=!(st.area||st.mkind||st.mq.trim());
+ $('mk-count').textContent=t('mkCount')(items.length,W.length);$('mk-reset').hidden=!(st.area||st.mkind||st.mopp||st.mq.trim());
  var ul=$('mk-list');ul.textContent='';items.forEach(function(r){ul.appendChild(card(r));});if(!items.length)ul.appendChild(el('li','empty',t('nothing')));}
 function upcoming(){var today=new Date(Date.now()+3*3600e3).toISOString().slice(0,10);return D.watch.filter(function(r){var e=String(r.end||r.date||'');return r.kind==='Event'&&e>=today.slice(0,e.length);}).sort(function(a,b){return String(a.date).localeCompare(String(b.date));});}
 function dates(){var B=$('dt-body');B.textContent='';var ev=upcoming();if(!ev.length){var tr0=el('tr'),td0=el('td','empty',t('noDates'));td0.colSpan=4;tr0.appendChild(td0);B.appendChild(tr0);}
@@ -282,7 +296,7 @@ function search(raw){q0=String(raw||'');var q=q0.trim().toLowerCase();$('qx').hi
  document.querySelectorAll('section[data-tab]').forEach(function(s){s.hidden=true;});document.querySelectorAll('nav.tabs button').forEach(function(b){b.setAttribute('aria-selected','false');});V.hidden=false;V.textContent='';
  var h=el('div','sec-h');h.append(el('h2',null,t('resH')),el('p',null,t('resP')(q0.trim())));V.appendChild(h);
  function has(o,keys){return keys.some(function(k){return String(o[k]||'').toLowerCase().indexOf(q)>=0;});}
- var et=D.etimad.filter(function(r){return has(r,['title','agency','discipline','disciplineAr','note','noteAr','rn','type']);}),total=et.length;
+ var et=D.etimad.filter(function(r){return has(r,['title','agency','discipline','disciplineAr','note','noteAr','rn','type','route','routeAr']);}),total=et.length;
  if(et.length){V.appendChild(el('p','res-h',t('resEt')+' ('+et.length+')'));var R=el('div','res');et.forEach(function(r){R.appendChild(resBtn(r.title,(isOpen(r)?dayTxt(dl(r.deadline)):t('closed'))+' · '+r.agency+' · '+f(r,'discipline')+' · '+r.rn,'etimad','et-'+r.rn,true,q,[r.note,r.noteAr].join(' ')));});V.appendChild(R);}
  SECS.forEach(function(s){var it=D.watch.filter(function(r){return r.section===s.key&&has(r,['title','titleAr','detail','detailAr','slfe','slfeAr','source','sourceAr']);});total+=it.length;if(!it.length)return;
   V.appendChild(el('p','res-h',t('market')+' · '+t('sec')[s.key]+' ('+it.length+')'));var R=el('div','res');it.forEach(function(r){R.appendChild(resBtn(f(r,'title'),range(r)+' · '+t('kind')[r.kind]+' · '+f(r,'source'),'market','w-'+r.id,false,q,[r.detail,r.detailAr,r.slfe,r.slfeAr,r.title,r.titleAr].join(' ')));});V.appendChild(R);});
@@ -292,7 +306,7 @@ function render(){statics();buildTabs();if(!D)return;var u=Date.parse(D.updated)
  counts();overview();etimad();market();dates();if(q0.trim())search(q0);else go(st.tab,false);}
 function fail(msg){statics();$('upd').textContent='';document.querySelectorAll('section[data-tab]').forEach(function(s){s.hidden=true;});$('nav').hidden=true;var m=$('main');var old=m.querySelector('.err');if(old)old.remove();m.insertBefore(el('div','err',msg),m.firstChild);}
 function wire(){$('et-tools').querySelectorAll('.chip').forEach(function(b){b.onclick=function(){st.fit=b.dataset.fit;etimad();};});
- $('et-disc').onchange=function(){st.disc=this.value;etimad();};var mt;$('mk-q').addEventListener('input',function(){var v=this.value;clearTimeout(mt);mt=setTimeout(function(){st.mq=v;market();},120);});$('mk-reset').onclick=function(){st.area='';st.mkind='';st.mq='';$('mk-q').value='';market();};$('et-closed').onchange=function(){st.closed=this.checked;etimad();};
+ $('et-disc').onchange=function(){st.disc=this.value;etimad();};var mt;$('mk-q').addEventListener('input',function(){var v=this.value;clearTimeout(mt);mt=setTimeout(function(){st.mq=v;market();},120);});$('mk-reset').onclick=function(){st.area='';st.mkind='';st.mopp='';st.mq='';$('mk-q').value='';market();};$('et-closed').onchange=function(){st.closed=this.checked;etimad();};
  var tmr;$('q').addEventListener('input',function(){var v=this.value;clearTimeout(tmr);tmr=setTimeout(function(){search(v);},120);});
  $('q').addEventListener('keydown',function(e){if(e.key==='Escape'){this.value='';search('');}});
  $('qx').onclick=function(){$('q').value='';search('');$('q').focus();};
