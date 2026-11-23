@@ -118,6 +118,36 @@ footer{color:var(--muted);font-size:12.5px}
 footer details summary{cursor:pointer;font-weight:600;color:var(--accent)}
 footer ul{margin:8px 0 0;padding-inline-start:18px;display:grid;gap:4px}
 .err{background:var(--panel);border:1px solid var(--bad);color:var(--bad);border-radius:10px;padding:14px}
+/* v3 polish (Harith 23 Nov): softer shadows, clearer section headers, tighter rhythm, row hover, print view, 'New' markers */
+:root{--shadow:0 1px 2px rgba(1,28,26,.06),0 6px 16px rgba(1,28,26,.05)}
+@media (prefers-color-scheme:dark){:root{--shadow:0 1px 2px rgba(0,0,0,.35),0 6px 16px rgba(0,0,0,.25)}}
+main .wrap{gap:26px}
+main section{gap:12px}
+.sec-h{border-inline-start-width:4px;padding-block:2px;gap:2px}
+.sec-h h2{font-size:21px;letter-spacing:-.005em}
+.sec-h p{font-size:14px}
+.tile,.card,.tbl,.filters{box-shadow:var(--shadow);border-radius:12px}
+.tile{padding:16px 18px}
+.card{padding:14px 18px;transition:border-color .15s}
+.card:hover{border-color:var(--petrol-2)}
+tbody tr:hover td{background:var(--soft)}
+td{padding:11px 14px}
+th{padding:10px 14px}
+.pill.new{color:var(--panel);background:var(--ok);border-color:var(--ok);font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-inline-end:6px}
+html[lang=ar] .pill.new{letter-spacing:0}
+.upd .newn{color:#BFE3C9;font-weight:700}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+@media print{
+ header.band{background:none;color:#000;border-bottom:2px solid #000}
+ header.band .right,nav.tabs,.acts,.filters,.tools,#qx,.hint{display:none!important}
+ .brand .upd,.purp{color:#333}
+ body{background:#fff;color:#000;font-size:12px}
+ .tile,.card,.tbl,.filters{box-shadow:none;border-color:#bbb}
+ .card,.tile,tr{break-inside:avoid}
+ .tbl{overflow:visible}
+ table{min-width:0}
+ a{color:#000;text-decoration:none}
+}
 </style>
 </head>
 <body>
@@ -192,7 +222,7 @@ en:{mark:'SLFE · SOLUTION LEADERS FAYEZ ENGINEERING',title:'SLFE Opportunity Wa
  thClose:'Bids close',thTender:'Tender',thBuyer:'Buyer',thDisc:'Discipline',thFit:'Fit',thBook:'Booklet (SAR)',thRn:'Etimad RN',
  dtH:'Dates to plan around',dtP:'Forums and shows where SLFE can meet buyers, OEMs and new local manufacturers. Confirmed dates only.',thDates:'Dates',thEvent:'Event',thArea:'Area',thWhy:'Why go',
  howH:'How this dashboard is kept up to date',how1:"Etimad's public tender list is scanned every day. A tender is kept only if the buyer is a defence or energy body and the scope is engineering SLFE delivers.",how2:'"Strong" is core SLFE engineering. "Medium" is partly engineering, or worth a look before deciding.',how3:'"Direct purchase" tenders are open only to invited suppliers.',how4:'HCIS, GAMI, defense logistics and supply chain items come from official sites and named news sources. Every card links to its source.',how5:'The data is encrypted. Only people with the full private link can read it, so share the link only with people who should see it.',
- updated:'Updated',riyadh:'Riyadh time',takeN:function(n,s,d){return [[n,1],[n===1?' Etimad tender fits SLFE now (':' Etimad tenders fit SLFE now (',0],[s,1],[' Strong). The next one closes ',0],[d,1],['.',0]];},takeNone:'No open Etimad tender fits SLFE right now. The HCIS, GAMI, defense and supply-chain watch is still current.',
+ updated:'Updated',newTag:'New',newN:function(n){return n+' new in the last 3 days';},riyadh:'Riyadh time',takeN:function(n,s,d){return [[n,1],[n===1?' Etimad tender fits SLFE now (':' Etimad tenders fit SLFE now (',0],[s,1],[' Strong). The next one closes ',0],[d,1],['.',0]];},takeNone:'No open Etimad tender fits SLFE right now. The HCIS, GAMI, defense and supply-chain watch is still current.',
  tOpen:'Open Etimad fits',tOpenS:function(s,m){return s+' Strong · '+m+' Medium';},tSoon:'Closing within 7 days',tSoonS:function(d){return d?'Next: '+d:'Nothing due this week';},
  noOpen:'No open tenders.',noMatch:'No tender matches these filters.',nothing:'Nothing here yet.',noDates:'No upcoming dates.',closed:'Closed',daysLeft:function(n){return n+(n===1?' day left':' days left');},dp:'Direct purchase',etOpen:'Open on Etimad ↗',cpSum:'⧉ Copy summary',cpAlt:'ع',cpAltTip:'Copy the summary in Arabic',copied:'Copied ✓',cpFail:'Copy failed',
  forSlfe:'For SLFE: ',source:'Source: ',standing:'Standing',resH:'Search results',resP:function(q){return 'Matches for "'+q+'" across every section. Pick one to open it in its tab.';},resEt:'Etimad tenders',resNone:'Nothing matches. Try a buyer name, an RN, or words like fire, pipeline, GAMI, iktva.',
@@ -210,7 +240,7 @@ ar:{mark:'SLFE · سوليوشن ليدرز فايز للهندسة',title:'مر
  thClose:'إغلاق العروض',thTender:'المنافسة',thBuyer:'الجهة',thDisc:'التخصص',thFit:'الملاءمة',thBook:'الكراسة (ريال)',thRn:'الرقم المرجعي',
  dtH:'مواعيد للتخطيط',dtP:'منتديات ومعارض يمكن لـ SLFE فيها لقاء الجهات والمصنّعين والمصانع المحلية الجديدة. مواعيد مؤكدة فقط.',thDates:'التاريخ',thEvent:'الفعالية',thArea:'المجال',thWhy:'لماذا نحضر',
  howH:'كيف تُحدَّث هذه اللوحة',how1:'تُفحص قائمة منافسات اعتماد العامة يوميًا، ولا تُدرج المنافسة إلا إذا كانت الجهة دفاعية أو من قطاع الطاقة والنطاق عملًا هندسيًا تقدّمه SLFE.',how2:'«قوية» تعني من صميم هندسة SLFE، و«متوسطة» تعني جزءًا هندسيًا أو تستحق النظر قبل القرار.',how3:'منافسات «الشراء المباشر» متاحة للموردين المدعوين فقط.',how4:'أخبار الأمن الصناعي والصناعات العسكرية والإمداد الدفاعي وسلاسل الإمداد من مواقع رسمية ومصادر إخبارية مسمّاة، وكل بطاقة مرتبطة بمصدرها.',how5:'البيانات مشفّرة، ولا يقرؤها إلا من لديه الرابط الخاص كاملًا، فشارك الرابط فقط مع من يجب أن يطّلع.',
- updated:'آخر تحديث',riyadh:'بتوقيت الرياض',takeN:function(n,s,d){return [[n,1],[n===1?' منافسة في اعتماد تناسب SLFE الآن (':' منافسات في اعتماد تناسب SLFE الآن (',0],[s,1],[' قوية). أقربها يُغلق ',0],[d,1],['.',0]];},takeNone:'لا توجد حاليًا منافسة مفتوحة في اعتماد تناسب SLFE. متابعة الأمن الصناعي والصناعات العسكرية والإمداد ما زالت محدّثة.',
+ updated:'آخر تحديث',newTag:'جديد',newN:function(n){return n+' جديد خلال آخر 3 أيام';},riyadh:'بتوقيت الرياض',takeN:function(n,s,d){return [[n,1],[n===1?' منافسة في اعتماد تناسب SLFE الآن (':' منافسات في اعتماد تناسب SLFE الآن (',0],[s,1],[' قوية). أقربها يُغلق ',0],[d,1],['.',0]];},takeNone:'لا توجد حاليًا منافسة مفتوحة في اعتماد تناسب SLFE. متابعة الأمن الصناعي والصناعات العسكرية والإمداد ما زالت محدّثة.',
  tOpen:'منافسات مناسبة مفتوحة',tOpenS:function(s,m){return s+' قوية · '+m+' متوسطة';},tSoon:'تُغلق خلال 7 أيام',tSoonS:function(d){return d?'الأقرب: '+d:'لا شيء هذا الأسبوع';},
  noOpen:'لا توجد منافسات مفتوحة.',noMatch:'لا توجد منافسة تطابق هذه التصفية.',nothing:'لا شيء هنا بعد.',noDates:'لا توجد مواعيد قادمة.',closed:'مغلقة',daysLeft:function(n){return n===1?'يوم واحد متبقٍ':(n===2?'يومان متبقيان':n+' أيام متبقية');},dp:'شراء مباشر',etOpen:'فتح في اعتماد ↗',cpSum:'⧉ نسخ الملخص',cpAlt:'EN',cpAltTip:'نسخ الملخص بالإنجليزية',copied:'تم النسخ ✓',cpFail:'تعذّر النسخ',
  forSlfe:'لـ SLFE: ',source:'المصدر: ',standing:'دائم',resH:'نتائج البحث',resP:function(q){return 'نتائج «'+q+'» في كل الأقسام. اختر نتيجة لفتحها في قسمها.';},resEt:'منافسات اعتماد',resNone:'لا توجد نتائج. جرّب اسم جهة أو رقمًا مرجعيًا أو كلمات مثل حريق، أنابيب، اكتفاء.',
@@ -243,6 +273,7 @@ function range(r){return dateTxt(r.date)+(r.end?' – '+dateTxt(r.end):'');}
 function isOpen(r){var x=dl(r.deadline);return x&&x>Date.now();}
 function hl(node,text,q){node.textContent='';var s=String(text==null?'':text);if(!q){node.textContent=s;return node;}var lo=s.toLowerCase(),i=0,j;while((j=lo.indexOf(q,i))>=0){node.appendChild(document.createTextNode(s.slice(i,j)));node.appendChild(el('mark',null,s.slice(j,j+q.length)));i=j+q.length;}node.appendChild(document.createTextNode(s.slice(i)));return node;}
 function pill(x,c){return el('span','pill '+c,x);}
+function isNew(r){var a=r.added||r.published;if(!a)return false;var x=Date.parse(String(a).slice(0,10)+'T00:00:00+03:00');return !isNaN(x)&&Date.now()-x<3*864e5&&x<=Date.now()+864e5;}
 function fmtN(n){return Number(n).toLocaleString('en-US');}
 function secOf(r){return {id:'market'};}
 
@@ -291,11 +322,11 @@ function etimad(){var sel=$('et-disc');sel.textContent='';sel.appendChild(new Op
  var B=$('et-body');B.textContent='';if(!rows.length){var tr0=el('tr'),td0=el('td','empty',t('noMatch'));td0.colSpan=8;tr0.appendChild(td0);B.appendChild(tr0);return;}
  rows.forEach(function(r){var tr=el('tr');tr.id='et-'+r.rn;var x=dl(r.deadline),open=isOpen(r),days=Math.max(1,Math.ceil((x-Date.now())/864e5));if(!open)tr.className='closed';
   var td=el('td','d',dayTxt(x)+' '+String(r.deadline).slice(11,16));td.appendChild(el('br'));if(!open)td.appendChild(pill(t('closed'),'closedp'));else if(days<=7)td.appendChild(pill(t('daysLeft')(days),'soon'));tr.appendChild(td);
-  var tt=el('td','ar',r.title);tt.setAttribute('lang','ar');var nt=f(r,'note');if(nt){var sm=el('small',null,nt);sm.dir=L==='ar'?'rtl':'ltr';sm.style.textAlign=L==='ar'?'right':'left';sm.setAttribute('lang',L);tt.appendChild(sm);}tt.appendChild(etActs(r));tr.appendChild(tt);
+  var tt=el('td','ar');tt.setAttribute('lang','ar');if(isNew(r)){var nw=pill(t('newTag'),'new');nw.setAttribute('lang',L);tt.appendChild(nw);}tt.appendChild(document.createTextNode(r.title));var nt=f(r,'note');if(nt){var sm=el('small',null,nt);sm.dir=L==='ar'?'rtl':'ltr';sm.style.textAlign=L==='ar'?'right':'left';sm.setAttribute('lang',L);tt.appendChild(sm);}tt.appendChild(etActs(r));tr.appendChild(tt);
   var ag=el('td','ar',r.agency);ag.setAttribute('lang','ar');ag.style.minWidth='170px';if(/مباشر/.test(r.type||'')){ag.appendChild(el('br'));ag.appendChild(pill(t('dp'),'dp'));}tr.appendChild(ag);
   tr.appendChild(el('td',null,f(r,'discipline')));var oc=el('td');oc.appendChild(oppTags(r.opps));if(f(r,'route'))oc.appendChild(el('span','route',f(r,'route')));tr.appendChild(oc);var fc=el('td');fc.appendChild(pill(t(r.fit),r.fit));tr.appendChild(fc);tr.appendChild(el('td','n',r.booklet?fmtN(r.booklet):'—'));tr.appendChild(el('td','n',r.rn));B.appendChild(tr);});}
 
-function card(r){var li=el('li','card');li.id='w-'+r.id;var m=el('div','meta');m.append(el('span','kind',t('kind')[r.kind]||r.kind),el('span','area',t('sec')[r.section]||r.section),el('span',null,range(r)));if(r.status)m.appendChild(pill(t('status')[r.status]||r.status,r.status));if(r.opps&&r.opps.length)m.appendChild(oppTags(r.opps));
+function card(r){var li=el('li','card');li.id='w-'+r.id;var m=el('div','meta');if(isNew(r))m.appendChild(pill(t('newTag'),'new'));m.append(el('span','kind',t('kind')[r.kind]||r.kind),el('span','area',t('sec')[r.section]||r.section),el('span',null,range(r)));if(r.status)m.appendChild(pill(t('status')[r.status]||r.status,r.status));if(r.opps&&r.opps.length)m.appendChild(oppTags(r.opps));
  var w=el('p','why');w.append(el('b',null,t('forSlfe')),el('span',null,f(r,'slfe')));var s=el('p','meta');if(r.url){var a=el('a',null,t('source')+f(r,'source'));a.href=r.url;a.target='_blank';a.rel='noopener noreferrer';s.appendChild(a);}else s.textContent=t('source')+f(r,'source');
  li.append(m,el('h3',null,f(r,'title')),el('p',null,f(r,'detail')),w,s);return li;}
 function mkMatch(r,ignore){if(ignore!=='area'&&st.area&&r.section!==st.area)return false;if(ignore!=='kind'&&st.mkind&&r.kind!==st.mkind)return false;if(ignore!=='opp'&&st.mopp&&(r.opps||[]).indexOf(st.mopp)<0)return false;var q=st.mq.trim().toLowerCase();if(q&&!['title','titleAr','detail','detailAr','slfe','slfeAr','source','sourceAr'].some(function(k){return String(r[k]||'').toLowerCase().indexOf(q)>=0;}))return false;return true;}
@@ -322,7 +353,7 @@ function search(raw){q0=String(raw||'');var q=q0.trim().toLowerCase();$('qx').hi
   V.appendChild(el('p','res-h',t('market')+' · '+t('sec')[s.key]+' ('+it.length+')'));var R=el('div','res');it.forEach(function(r){R.appendChild(resBtn(f(r,'title'),range(r)+' · '+t('kind')[r.kind]+' · '+f(r,'source'),'market','w-'+r.id,false,q,[r.detail,r.detailAr,r.slfe,r.slfeAr,r.title,r.titleAr].join(' ')));});V.appendChild(R);});
  if(!total)V.appendChild(el('p','empty',t('resNone')));}
 
-function render(){statics();buildTabs();if(!D)return;var u=Date.parse(D.updated);$('upd').textContent=isNaN(u)?'':t('updated')+' '+dayTxt(u)+' '+rd(u).toISOString().slice(0,4)+(L==='ar'?'، ':', ')+rd(u).toISOString().slice(11,16)+' '+t('riyadh');
+function render(){statics();buildTabs();if(!D)return;var u=Date.parse(D.updated);$('upd').textContent=isNaN(u)?'':t('updated')+' '+dayTxt(u)+' '+rd(u).toISOString().slice(0,4)+(L==='ar'?'، ':', ')+rd(u).toISOString().slice(11,16)+' '+t('riyadh');var nn=D.etimad.filter(function(r){return isOpen(r)&&isNew(r);}).length+D.watch.filter(isNew).length;if(nn){$('upd').appendChild(document.createTextNode(' · '));$('upd').appendChild(el('span','newn',t('newN')(nn)));}
  counts();overview();etimad();market();dates();if(q0.trim())search(q0);else go(st.tab,false);}
 function fail(msg){statics();$('upd').textContent='';document.querySelectorAll('section[data-tab]').forEach(function(s){s.hidden=true;});$('nav').hidden=true;var m=$('main');var old=m.querySelector('.err');if(old)old.remove();m.insertBefore(el('div','err',msg),m.firstChild);}
 function wire(){$('et-tools').querySelectorAll('.chip').forEach(function(b){b.onclick=function(){st.fit=b.dataset.fit;etimad();};});
